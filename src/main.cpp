@@ -12,6 +12,8 @@
 goblib::UnifiedButton unifiedButton;
 #endif
 
+//#define servo_debug_mode
+
 int servo_offset_x = 0;  // X軸サーボのオフセット（サーボの初期位置からの+-で設定）
 int servo_offset_y = 0;  // Y軸サーボのオフセット（サーボの初期位置からの+-で設定）
 
@@ -110,20 +112,60 @@ void moveRandom() {
     avatar.setSpeechText("");
   }
 }
+
+void checkservo(){
+  char result[100];
+  if(system_config.getServoType() == ServoType::RT_DYN_XL330){
+    sprintf(result, "X:%f, Y:%f", servo.getPosition(1), servo.getPosition(2));
+    avatar.setSpeechText(result);
+    M5_LOGI("CS:%s",result);
+    delay(2000);
+  }
+}
+
 void testServo() {
   for (int i=0; i<2; i++) {
     avatar.setSpeechText("X center -> left  ");
     servo.moveX(system_config.getServoInfo(AXIS_X)->lower_limit, 1000);
+#ifdef servo_debug_mode
+    //checkservo();
+    //delay(2000);
+#endif
+
     avatar.setSpeechText("X left -> right  ");
     servo.moveX(system_config.getServoInfo(AXIS_X)->upper_limit, 3000);
+#ifdef servo_debug_mode
+    //checkservo();
+    //delay(2000);
+#endif
+    
     avatar.setSpeechText("X right -> center  ");
     servo.moveX(system_config.getServoInfo(AXIS_X)->start_degree, 1000);
+#ifdef servo_debug_mode
+    //checkservo();
+    //delay(2000);
+#endif
+    
     avatar.setSpeechText("Y center -> lower  ");
     servo.moveY(system_config.getServoInfo(AXIS_Y)->lower_limit, 1000);
+#ifdef servo_debug_mode
+    //checkservo();
+    //delay(2000);
+#endif
+
     avatar.setSpeechText("Y lower -> upper  ");
     servo.moveY(system_config.getServoInfo(AXIS_Y)->upper_limit, 1000);
+#ifdef servo_debug_mode
+    //checkservo();
+    //delay(2000);
+#endif
+    
     avatar.setSpeechText("Initial Pos.");
     servo.moveXY(system_config.getServoInfo(AXIS_X)->start_degree, system_config.getServoInfo(AXIS_Y)->start_degree, 1000);
+#ifdef servo_debug_mode
+    //checkservo();
+    //delay(2000);
+#endif
   }
 }
 
