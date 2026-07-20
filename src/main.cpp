@@ -148,6 +148,29 @@ void testServo() {
   }
 }
 
+void testMyFunc() {
+    int x_dif = -30;
+    int y_dif = -20;
+    int move_time = 1000;
+    
+    servo.moveXY(system_config.getServoInfo(AXIS_X)->start_degree + x_dif,
+      system_config.getServoInfo(AXIS_Y)->start_degree + y_dif, 
+      move_time);
+    avatar.setSpeechText("Hello World");
+
+    avatar.setExpression(Expression::Happy);
+    delay(2000);
+
+    servo.moveXY(system_config.getServoInfo(AXIS_X)->start_degree,
+      system_config.getServoInfo(AXIS_Y)->start_degree, 
+      move_time);
+    avatar.setSpeechText("");
+
+    avatar.setExpression(Expression::Neutral);
+    delay(2000);
+
+}
+
 // ぼっちちゃんのむむむを再現するために遊びで作った関数。
 // 使わないでください。
 void mumumuServo() {
@@ -246,7 +269,8 @@ void loop() {
     }
   } else if (M5.BtnC.wasPressed()) {     // ボタンCが押された場合
     //mumumuServo();                     // 左右に高速で首を振ります。（サーボが壊れるのであまり使わないでください。）コメントなので実行されません。
-    moveRandom();                        // ランダムモードになります。
+    //moveRandom();                        // ランダムモードになります。
+    testMyFunc();
   }
 
   if ((millis() - last_mouth_millis) > mouth_wait) {             // 口を開けるタイミングを待ちます。時間を図ってmouth_waitで設定した時間が経つと繰り返します。
